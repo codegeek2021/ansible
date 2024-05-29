@@ -1,0 +1,7 @@
+---
+  - name: Adding MySQL DB
+    mysql_db:
+      name: "{{ staging }}"
+      login_user: staging
+      login_password: emt936Dcs7rRKWrn
+      state: present

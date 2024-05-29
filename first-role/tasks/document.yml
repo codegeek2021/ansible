@@ -1,0 +1,11 @@
+---
+  - name: Set up Apache virtuahHost
+    template:
+      src: "files/apache2.conf.j2"
+      dest: "/etc/apache2/sites-available/{{ staging_link }}.conf"
+
+  - name: Enable new site
+    shell: /usr/sbin/a2ensite {{ staging_link }}.conf
+    notify: 
+      - restart apache
+

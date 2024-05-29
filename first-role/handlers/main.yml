@@ -1,0 +1,7 @@
+# handlers file for first-role
+---
+  - name: restart apache
+    become: true
+    service:
+      name: apache2
+      state: reloaded

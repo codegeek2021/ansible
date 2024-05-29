@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+     ServerAdmin admin@site1.your_domain
+     ServerName {{ staging_link }}
+     DocumentRoot /var/www/html/{{ staging_link }}
+     DirectoryIndex index.php
+
+
+     <Directory /var/www/html/{{ staging_link }}>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+     </Directory>
+
+    <FilesMatch \.php$>
+        # From the Apache version 2.4.10 and above, use the SetHandler to run PHP as a fastCGI process server
+         SetHandler "proxy:unix:/run/php/php7.4-fpm.sock|fcgi://localhost"
+    </FilesMatch>
+
+     ErrorLog ${APACHE_LOG_DIR}/site1.your_domain_error.log
+     CustomLog ${APACHE_LOG_DIR}/site1.your_domain_access.log combined
+RewriteEngine on
+RewriteCond %{SERVER_NAME} ={{ staging_link }}
+RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
